@@ -1,28 +1,60 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+<Load v-if='$store.state.load'></Load>
+ <transition  enter-active-class = "fadeIn" leave-active-class = "fadeOut">
+      <router-view></router-view>
+ </transition>
+     <Footer v-if="$root.Foot"></Footer>
+     
+     
+   
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+
+import Footer from './components/footer.vue'
+import Load from './components/loading'
+import './plugins/axios'
 
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
+   components:{
+      
+    
+     //Reg
+      Footer,
+      Load
+
+    
+   },
+   watch:{
+     $route:function(now){
+        var path  = now.path
+        if( /home|my/.test(path)){
+          this.$root.Foot = true
+
+        }
+       if(/user|search|reg|news|login|err/.test(path)){
+          this.$root.Foot=false
+       }
+        
+       
+     },
+       immediate:true
+   },
+  
+   
+  
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style  scoped>
+
+#app{height:640px;width: 360px;margin:0 auto;; }
+
+  
+
 </style>
